@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Notes Management Web Application - INT332</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,sans-serif;background:#f0f2f5;display:flex;justify-content:center;padding:30px 20px;min-height:100vh;transition:background 0.3s}
+    body.dark{background:#1a1a2e}
+
+    /* ── HOME PAGE ── */
+    .home{background:white;border-radius:12px;padding:28px;width:100%;max-width:600px;box-shadow:0 2px 12px rgba(0,0,0,0.1);transition:background 0.3s}
+    body.dark .home{background:#16213e;box-shadow:0 2px 20px rgba(0,0,0,0.4)}
+
+    .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .header h1{color:#1a1a2e;font-size:20px;font-weight:700}
+    body.dark .header h1{color:#e0e0e0}
+    .dark-btn{background:none;border:1px solid #ccc;border-radius:20px;padding:5px 16px;cursor:pointer;font-size:12px;color:#555;font-weight:500;transition:all 0.2s}
+    body.dark .dark-btn{border-color:#444;color:#aaa}
+    .dark-btn:hover{background:#f5f5f5}
+    body.dark .dark-btn:hover{background:#2a2a4a}
+
+    .conn-status{font-size:12px;color:#27ae60;margin-bottom:18px;font-weight:500}
+    .conn-status.offline{color:#e74c3c}
+
+    .section-label{font-size:11px;color:#666;font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px}
+    body.dark .section-label{color:#777}
+
+    .search-wrap{margin-bottom:16px}
+    .search-wrap input{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;outline:none;background:white;color:#333;transition:border 0.2s}
+    body.dark .search-wrap input{background:#1a1a2e;border-color:#444;color:#e0e0e0}
+    .search-wrap input:focus{border-color:#4A90E2}
+
+    .add-wrap{margin-bottom:16px}
+    .add-row{display:flex;gap:10px}
+    .add-row input{flex:1;padding:11px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;color:#333;background:white;transition:border 0.2s}
+    body.dark .add-row input{background:#1a1a2e;border-color:#444;color:#e0e0e0}
+    .add-row input:focus{border-color:#4A90E2}
+    .add-btn{padding:11px 22px;background:#4A90E2;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500}
+    .add-btn:hover{background:#357ABD}
+
+    .notes-count{font-size:12px;color:#888;margin-bottom:10px}
+    body.dark .notes-count{color:#555}
+
+    /* NOTE CARD */
+    .note-card{border:1px solid #eee;border-radius:8px;margin-bottom:8px;background:#fafafa;transition:all 0.15s;overflow:hidden}
+    body.dark .note-card{background:#0f3460;border-color:#1a4a7a}
+    .note-card:hover{border-color:#4A90E2;box-shadow:0 2px 8px rgba(74,144,226,0.12)}
+
+    .note-card-top{display:flex;align-items:center;padding:12px 14px;cursor:pointer;gap:10px}
+    .note-icon{width:34px;height:34px;border-radius:8px;background:#e8f4fd;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:700;color:#4A90E2}
+    body.dark .note-icon{background:#1a3a5a;color:#7ab8f5}
+    .note-info{flex:1;min-width:0}
+    .note-title{font-size:14px;font-weight:600;color:#1a1a2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    body.dark .note-title{color:#e0e0e0}
+    .note-preview{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+    body.dark .note-preview{color:#666}
+    .note-date{font-size:11px;color:#bbb;flex-shrink:0}
+    body.dark .note-date{color:#555}
+
+    .note-actions{display:flex;border-top:1px solid #eee}
+    body.dark .note-actions{border-color:#1a4a7a}
+    .nab{flex:1;padding:8px;background:none;border:none;cursor:pointer;font-size:12px;font-weight:500;transition:background 0.15s}
+    .nab+.nab{border-left:1px solid #eee}
+    body.dark .nab+.nab{border-color:#1a4a7a}
+    .open-btn-s{color:#4A90E2}.open-btn-s:hover{background:#eef4fc}
+    body.dark .open-btn-s:hover{background:#1a3a5a}
+    .edit-btn-s{color:#f39c12}.edit-btn-s:hover{background:#fef9e7}
+    body.dark .edit-btn-s:hover{background:#3a2a00}
+    .del-btn-s{color:#e74c3c}.del-btn-s:hover{background:#fdecea}
+    body.dark .del-btn-s:hover{background:#3a1a1a}
+
+    .no-notes{text-align:center;padding:30px;color:#bbb;font-size:14px}
+    body.dark .no-notes{color:#555}
+
+    .footer{margin-top:20px;padding-top:14px;border-top:1px solid #eee;font-size:11px;color:#bbb;text-align:center}
+    body.dark .footer{border-color:#2a2a4a;color:#444}
+
+    /* ── NOTE VIEW/EDIT PAGE ── */
+    .note-page{display:none;background:white;border-radius:12px;width:100%;max-width:700px;box-shadow:0 2px 16px rgba(0,0,0,0.12);overflow:hidden;transition:background 0.3s;flex-direction:column}
+    body.dark .note-page{background:#16213e}
+    .note-page.open{display:flex}
+
+    /* PAGE HEADER */
+    .np-header{background:#f8f9fa;border-bottom:1px solid #eee;padding:13px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+    body.dark .np-header{background:#0f3460;border-color:#1a4a7a}
+    .back-btn{padding:6px 14px;background:white;border:1px solid #ddd;border-radius:8px;cursor:pointer;font-size:13px;color:#555;font-weight:500;transition:all 0.15s;flex-shrink:0}
+    body.dark .back-btn{background:#1a1a2e;border-color:#444;color:#aaa}
+    .back-btn:hover{background:#f0f0f0;border-color:#4A90E2;color:#4A90E2}
+    .np-header-mid{flex:1;min-width:0}
+    .np-breadcrumb{font-size:11px;color:#aaa;margin-bottom:2px}
+    body.dark .np-breadcrumb{color:#555}
+    .np-timestamp{font-size:11px;color:#bbb}
+    body.dark .np-timestamp{color:#555}
+    .np-header-btns{display:flex;gap:8px;flex-shrink:0}
+
+    /* MODE INDICATOR */
+    .mode-badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.3px}
+    .mode-read{background:#eafaf1;color:#27ae60;border:1px solid #c3f0d3}
+    body.dark .mode-read{background:#1a3a2a;border-color:#2a5a3a;color:#5dbf7a}
+    .mode-edit{background:#fef9e7;color:#f39c12;border:1px solid #fde9a2}
+    body.dark .mode-edit{background:#3a2a00;border-color:#6a5a00;color:#f39c12}
+
+    .edit-toggle-btn{padding:6px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;border:none;transition:all 0.2s}
+    .btn-to-edit{background:#f39c12;color:white}
+    .btn-to-edit:hover{background:#d68910}
+    .btn-save{background:#27ae60;color:white}
+    .btn-save:hover{background:#1e8449}
+    .btn-cancel{background:white;border:1px solid #ddd;color:#555}
+    body.dark .btn-cancel{background:#1a1a2e;border-color:#444;color:#aaa}
+    .btn-cancel:hover{background:#f0f0f0}
+    .saved-msg{font-size:12px;color:#27ae60;font-weight:500;opacity:0;transition:opacity 0.3s;flex-shrink:0}
+    .saved-msg.show{opacity:1}
+
+    /* NOTE TITLE */
+    .np-title-wrap{padding:20px 24px 10px}
+    .np-title-view{font-size:22px;font-weight:700;color:#1a1a2e;word-break:break-word;line-height:1.3}
+    body.dark .np-title-view{color:#e0e0e0}
+    .np-title-inp{width:100%;border:none;border-bottom:2px solid #4A90E2;outline:none;font-size:22px;font-weight:700;color:#1a1a2e;background:transparent;font-family:Arial,sans-serif;padding-bottom:4px;display:none}
+    body.dark .np-title-inp{color:#e0e0e0}
+    .np-title-inp::placeholder{color:#ccc}
+
+    .np-divider{height:1px;background:#eee;margin:0 24px}
+    body.dark .np-divider{background:#2a2a4a}
+
+    /* NOTE CONTENT */
+    .np-content-wrap{flex:1;padding:16px 24px 20px;min-height:350px;display:flex;flex-direction:column}
+    .np-content-view{flex:1;font-size:14px;line-height:1.85;color:#333;white-space:pre-wrap;word-break:break-word;min-height:320px}
+    body.dark .np-content-view{color:#d0d0d0}
+    .np-content-empty{color:#ccc;font-style:italic;font-size:14px}
+    body.dark .np-content-empty{color:#555}
+    .np-content-inp{flex:1;width:100%;border:1px solid #e0e0e0;border-radius:8px;outline:none;resize:none;font-size:14px;line-height:1.85;color:#333;background:#fafafa;font-family:Arial,sans-serif;padding:12px;min-height:320px;display:none;transition:border 0.2s}
+    body.dark .np-content-inp{background:#1a1a2e;border-color:#444;color:#e0e0e0}
+    .np-content-inp:focus{border-color:#4A90E2}
+    .np-content-inp::placeholder{color:#ccc}
+
+    /* NOTE PAGE FOOTER */
+    .np-footer{padding:10px 24px;border-top:1px solid #eee;background:#fafafa;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+    body.dark .np-footer{background:#0f2a4a;border-color:#1a4a7a}
+    .np-footer-info{font-size:11px;color:#bbb}
+    body.dark .np-footer-info{color:#555}
+    .np-del-btn{padding:5px 14px;background:none;border:1px solid #e74c3c;border-radius:6px;color:#e74c3c;cursor:pointer;font-size:12px;font-weight:500}
+    .np-del-btn:hover{background:#e74c3c;color:white}
+
+    .page-wrap{width:100%;display:flex;justify-content:center}
+  </style>
+</head>
+<body>
+
+<!-- HOME PAGE -->
+<div class="page-wrap" id="homePage">
+<div class="home">
+  <div class="header">
+    <h1>Notes Management Web Application</h1>
+    <button class="dark-btn" id="darkBtn" onclick="toggleDark()">Dark Mode</button>
+  </div>
+  <div class="conn-status" id="connStatus">Connecting...</div>
+
+  <div class="search-wrap">
+    <div class="section-label">Search Notes</div>
+    <input type="text" id="searchInp" placeholder="Type to search your notes..." oninput="renderNotes()" />
+  </div>
+
+  <div class="add-wrap">
+    <div class="section-label">Add New Note</div>
+    <div class="add-row">
+      <input type="text" id="addInp" placeholder="Type a note title and press Add..." />
+      <button class="add-btn" onclick="addNote()">Add</button>
+    </div>
+  </div>
+
+  <div class="notes-count" id="notesCount"></div>
+  <div id="notesList"></div>
+
+  <div class="footer">
+    Tools Used: Docker | Docker Compose | Python Flask | MySQL | Nginx | GitHub Actions | Git
+  </div>
+</div>
+</div>
+
+<!-- NOTE VIEW / EDIT PAGE -->
+<div class="page-wrap" id="notePage" style="display:none">
+<div class="note-page open" id="noteBox">
+
+  <div class="np-header">
+    <button class="back-btn" onclick="goBack()">&#8592; Back</button>
+    <div class="np-header-mid">
+      <div class="np-breadcrumb">Notes Management Web Application &rsaquo; Notes</div>
+      <div class="np-timestamp" id="npTimestamp"></div>
+    </div>
+    <span class="saved-msg" id="savedMsg">Saved</span>
+    <span class="mode-badge mode-read" id="modeBadge">Read Mode</span>
+    <!-- READ MODE: show Edit button -->
+    <button class="edit-toggle-btn btn-to-edit" id="editBtn" onclick="enterEditMode()">Edit</button>
+    <!-- EDIT MODE: show Save + Cancel -->
+    <button class="edit-toggle-btn btn-save" id="saveBtn" style="display:none" onclick="saveNote()">Save</button>
+    <button class="edit-toggle-btn btn-cancel" id="cancelBtn" style="display:none" onclick="cancelEdit()">Cancel</button>
+  </div>
+
+  <!-- TITLE -->
+  <div class="np-title-wrap">
+    <div class="np-title-view" id="npTitleView"></div>
+    <input class="np-title-inp" type="text" id="npTitleInp" placeholder="Note title..." />
+  </div>
+  <div class="np-divider"></div>
+
+  <!-- CONTENT -->
+  <div class="np-content-wrap">
+    <div class="np-content-view" id="npContentView"></div>
+    <textarea class="np-content-inp" id="npContentInp" placeholder="Start writing your note content here...&#10;&#10;You can write anything — steps, ideas, commands, details."></textarea>
+  </div>
+
+  <div class="np-footer">
+    <div class="np-footer-info" id="npWordCount"></div>
+    <button class="np-del-btn" onclick="deleteCurrentNote()">Delete Note</button>
+  </div>
+
+</div>
+</div>
+
+<script>
+  const API = "http://localhost:5000/notes";
+  let allNotes = [];
+  let currentNote = null;
+  let isEditMode = false;
+  let originalTitle = '';
+  let originalContent = '';
+
+  // ── DARK MODE ─────────────────────────────
+  function toggleDark() {
+    document.body.classList.toggle('dark');
+    document.getElementById('darkBtn').textContent =
+      document.body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
+  }
+
+  // ── PAGES ─────────────────────────────────
+  function showHome() {
+    document.getElementById('homePage').style.display = 'flex';
+    document.getElementById('notePage').style.display = 'none';
+    window.scrollTo(0,0);
+  }
+  function showNotePage() {
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('notePage').style.display = 'flex';
+    window.scrollTo(0,0);
+  }
+
+  // ── LOAD NOTES ────────────────────────────
+  async function loadNotes() {
+    try {
+      var r = await fetch(API);
+      allNotes = await r.json();
+      var st = document.getElementById('connStatus');
+      st.textContent = 'All 3 microservices connected and running';
+      st.className = 'conn-status';
+      renderNotes();
+    } catch(e) {
+      var st = document.getElementById('connStatus');
+      st.textContent = 'Connecting to backend...';
+      st.className = 'conn-status offline';
+      setTimeout(loadNotes, 3000);
+    }
+  }
+
+  // ── RENDER HOME LIST ──────────────────────
+  function renderNotes() {
+    var q = (document.getElementById('searchInp').value || '').toLowerCase();
+    var filtered = allNotes.filter(function(n){
+      return (n.title||'').toLowerCase().includes(q) ||
+             (n.content||'').toLowerCase().includes(q);
+    });
+
+    document.getElementById('notesCount').textContent =
+      filtered.length + ' note' + (filtered.length !== 1 ? 's' : '') + ' saved';
+
+    var list = document.getElementById('notesList');
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="no-notes">' +
+        (q ? 'No notes match your search.' : 'No notes yet. Add one above!') + '</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    filtered.forEach(function(n) {
+      var init = (n.title||'N').trim()[0].toUpperCase();
+      var preview = (n.content||'').replace(/\n/g,' ').trim();
+      if (!preview) preview = 'Click Open to view and write content...';
+      if (preview.length > 55) preview = preview.substring(0,55) + '...';
+
+      var card = document.createElement('div');
+      card.className = 'note-card';
+      card.innerHTML =
+        '<div class="note-card-top" onclick="openNote(' + n.id + ', false)">' +
+          '<div class="note-icon">' + init + '</div>' +
+          '<div class="note-info">' +
+            '<div class="note-title">' + escHtml(n.title||'Untitled') + '</div>' +
+            '<div class="note-preview">' + escHtml(preview) + '</div>' +
+          '</div>' +
+          '<div class="note-date">' + fmtDate(n.updated_at) + '</div>' +
+        '</div>' +
+        '<div class="note-actions">' +
+          '<button class="nab open-btn-s" onclick="openNote(' + n.id + ', false)">Open</button>' +
+          '<button class="nab edit-btn-s" onclick="openNote(' + n.id + ', true)">Edit</button>' +
+          '<button class="nab del-btn-s" onclick="deleteNote(' + n.id + ', event)">Delete</button>' +
+        '</div>';
+      list.appendChild(card);
+    });
+  }
+
+  // ── ADD NOTE ──────────────────────────────
+  async function addNote() {
+    var inp = document.getElementById('addInp');
+    var title = inp.value.trim();
+    if (!title) { inp.focus(); return; }
+    try {
+      var r = await fetch(API, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({title: title, content: ''})
+      });
+      var note = await r.json();
+      allNotes.unshift(note);
+      inp.value = '';
+      renderNotes();
+      // open immediately in edit mode so user can write content
+      openNote(note.id, true);
+    } catch(e) {
+      alert('Error creating note. Make sure Docker containers are running.');
+    }
+  }
+
+  document.getElementById('addInp').addEventListener('keypress', function(e){
+    if (e.key === 'Enter') addNote();
+  });
+
+  // ── OPEN NOTE ─────────────────────────────
+  // openInEditMode = false → read mode
+  // openInEditMode = true  → edit mode directly
+  async function openNote(id, openInEditMode) {
+    try {
+      var r = await fetch(API + '/' + id);
+      currentNote = await r.json();
+    } catch(e) {
+      currentNote = allNotes.find(function(n){ return n.id === id; }) || null;
+    }
+    if (!currentNote) return;
+
+    // store originals for cancel
+    originalTitle   = currentNote.title   || '';
+    originalContent = currentNote.content || '';
+
+    // fill fields
+    document.getElementById('npTitleView').textContent    = currentNote.title || 'Untitled';
+    document.getElementById('npTitleInp').value           = currentNote.title || '';
+    document.getElementById('npContentInp').value         = currentNote.content || '';
+    setContentView(currentNote.content || '');
+    updateWordCount();
+
+    document.getElementById('npTimestamp').textContent =
+      currentNote.updated_at ? 'Last saved: ' + fmtDate(currentNote.updated_at) : 'Not saved yet';
+
+    if (openInEditMode) {
+      setEditMode(true);
+    } else {
+      setEditMode(false);
+    }
+
+    showNotePage();
+  }
+
+  // ── SET READ / EDIT MODE ──────────────────
+  function setEditMode(on) {
+    isEditMode = on;
+
+    // title
+    document.getElementById('npTitleView').style.display = on ? 'none' : 'block';
+    document.getElementById('npTitleInp').style.display  = on ? 'block' : 'none';
+
+    // content
+    document.getElementById('npContentView').style.display = on ? 'none' : 'block';
+    document.getElementById('npContentInp').style.display  = on ? 'block' : 'none';
+
+    // buttons
+    document.getElementById('editBtn').style.display   = on ? 'none' : 'inline-block';
+    document.getElementById('saveBtn').style.display   = on ? 'inline-block' : 'none';
+    document.getElementById('cancelBtn').style.display = on ? 'inline-block' : 'none';
+
+    // badge
+    var badge = document.getElementById('modeBadge');
+    badge.textContent = on ? 'Edit Mode' : 'Read Mode';
+    badge.className   = 'mode-badge ' + (on ? 'mode-edit' : 'mode-read');
+
+    if (on) {
+      setTimeout(function(){
+        document.getElementById('npContentInp').focus();
+      }, 50);
+    }
+  }
+
+  function enterEditMode() {
+    // store current view as originals before editing
+    originalTitle   = currentNote.title   || '';
+    originalContent = currentNote.content || '';
+    document.getElementById('npTitleInp').value   = originalTitle;
+    document.getElementById('npContentInp').value = originalContent;
+    setEditMode(true);
+  }
+
+  function cancelEdit() {
+    // restore originals
+    document.getElementById('npTitleView').textContent = originalTitle || 'Untitled';
+    document.getElementById('npContentInp').value      = originalContent;
+    setContentView(originalContent);
+    setEditMode(false);
+  }
+
+  // ── SET CONTENT VIEW (read mode) ──────────
+  function setContentView(content) {
+    var view = document.getElementById('npContentView');
+    if (!content || !content.trim()) {
+      view.innerHTML = '<span class="np-content-empty">No content yet. Click Edit to start writing.</span>';
+    } else {
+      view.textContent = content;
+    }
+  }
+
+  // ── SAVE NOTE ─────────────────────────────
+  async function saveNote() {
+    if (!currentNote) return;
+    var title   = document.getElementById('npTitleInp').value.trim() || 'Untitled';
+    var content = document.getElementById('npContentInp').value;
+    try {
+      var r = await fetch(API + '/' + currentNote.id, {
+        method: 'PUT',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({title: title, content: content})
+      });
+      var updated = await r.json();
+      currentNote.title   = title;
+      currentNote.content = content;
+      if (updated.updated_at) currentNote.updated_at = updated.updated_at;
+
+      // update originals
+      originalTitle   = title;
+      originalContent = content;
+
+      // update view
+      document.getElementById('npTitleView').textContent = title;
+      setContentView(content);
+      updateWordCount();
+      document.getElementById('npTimestamp').textContent =
+        'Last saved: ' + (updated.updated_at ? fmtDate(updated.updated_at) : 'just now');
+
+      // update local list
+      var idx = allNotes.findIndex(function(n){ return n.id === currentNote.id; });
+      if (idx >= 0) { allNotes[idx].title = title; allNotes[idx].content = content; }
+
+      // switch to read mode
+      setEditMode(false);
+
+      // show saved badge
+      var msg = document.getElementById('savedMsg');
+      msg.className = 'saved-msg show';
+      setTimeout(function(){ msg.className = 'saved-msg'; }, 2000);
+    } catch(e) {
+      alert('Error saving note.');
+    }
+  }
+
+  // ── BACK ──────────────────────────────────
+  function goBack() {
+    currentNote = null;
+    isEditMode  = false;
+    loadNotes();
+    showHome();
+  }
+
+  // ── DELETE FROM NOTE PAGE ─────────────────
+  async function deleteCurrentNote() {
+    if (!currentNote) return;
+    if (!confirm('Delete "' + (currentNote.title||'this note') + '"? This cannot be undone.')) return;
+    try {
+      await fetch(API + '/' + currentNote.id, {method:'DELETE'});
+      allNotes = allNotes.filter(function(n){ return n.id !== currentNote.id; });
+      currentNote = null;
+      showHome();
+      renderNotes();
+    } catch(e) {
+      alert('Error deleting note.');
+    }
+  }
+
+  // ── DELETE FROM HOME LIST ─────────────────
+  async function deleteNote(id, event) {
+    event.stopPropagation();
+    var note = allNotes.find(function(n){ return n.id === id; });
+    if (!confirm('Delete "' + (note ? note.title : 'this note') + '"?')) return;
+    try {
+      await fetch(API + '/' + id, {method:'DELETE'});
+      allNotes = allNotes.filter(function(n){ return n.id !== id; });
+      renderNotes();
+    } catch(e) {
+      alert('Error deleting note.');
+    }
+  }
+
+  // ── WORD COUNT ────────────────────────────
+  function updateWordCount() {
+    var content = (currentNote && currentNote.content) || '';
+    var inp = document.getElementById('npContentInp').value || content;
+    var words = inp.trim() ? inp.trim().split(/\s+/).length : 0;
+    document.getElementById('npWordCount').textContent =
+      words + ' word' + (words !== 1 ? 's' : '') + ' | ' + inp.length + ' characters';
+  }
+
+  // ── HELPERS ───────────────────────────────
+  function fmtDate(str) {
+    if (!str) return '';
+    var d = new Date(str);
+    return d.toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}) +
+           ' ' + d.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
+  }
+
+  function escHtml(t) {
+    return String(t)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Ctrl+S shortcut
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey||e.metaKey) && e.key==='s') {
+      e.preventDefault();
+      if (currentNote && isEditMode) saveNote();
+    }
+    if (e.key==='Escape' && currentNote) goBack();
+  });
+
+  // START
+  loadNotes();
+</script>
+</body>
+</html>
