@@ -7,6 +7,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: microservicesdb
+      TZ: Asia/Kolkata     
     ports:
       - "3306:3306"
     volumes:
