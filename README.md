@@ -36,7 +36,7 @@ git clone https://github.com/MaadhavaM/multi-container-microservices-app.git
 cd multi-container-microservices-app
 docker-compose up --build
 ```
-Open browser: **http://localhost**
+Open browser: **http://localhost:8082**
 
 ## CI/CD Pipeline (GitHub Actions)
 Every git push automatically triggers 3 jobs:
