@@ -12,7 +12,7 @@ def get_db():
     while retries > 0:
         try:
             conn = mysql.connector.connect(
-                host=os.environ.get("DB_HOST", "db"),
+                host=os.environ.get("DB_HOST", "mysql"),
                 user=os.environ.get("DB_USER", "root"),
                 password=os.environ.get("DB_PASSWORD", "root123"),
                 database=os.environ.get("DB_NAME", "microservicesdb")

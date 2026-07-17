@@ -6,7 +6,9 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:Arial,sans-serif;min-height:100vh;transition:background 0.3s}
 
-    /* LOGIN PAGE — full screen centered */
+    /* ══════════════════════════════════════
+       LOGIN PAGE — full screen centered
+    ══════════════════════════════════════ */
     #loginPage{
       min-height:100vh;
       background:linear-gradient(135deg,#0D1B2A 0%,#1565C0 55%,#00BCD4 100%);
@@ -114,14 +116,7 @@
     body.dark .auth-msg.ok{background:#1a3a1a;border-color:#1b5e20;color:#a5d6a7}
     @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 
-    /* app badge at bottom of card */
-    .card-badge{
-      display:flex;flex-wrap:wrap;gap:5px;justify-content:center;
-      margin-top:22px;padding-top:18px;border-top:1px solid #f0f0f0;
-    }
-    body.dark .card-badge{border-color:#2a3a4a}
-    .cbadge{padding:3px 9px;background:#E3F2FD;border-radius:12px;font-size:10px;color:#1565C0;font-weight:500}
-    body.dark .cbadge{background:#0D2137;color:#64B5F6}
+
 
     /* dark btn top right */
     .global-dark{
@@ -133,7 +128,9 @@
     body.dark .global-dark{background:rgba(22,33,62,0.8);border-color:#444;color:#aaa}
     .global-dark:hover{background:rgba(255,255,255,0.25)}
 
-    /* FORGOT PASSWORD MODAL */
+    /* ══════════════════════════════════════
+       FORGOT PASSWORD MODAL
+    ══════════════════════════════════════ */
     .modal-overlay{
       display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);
       z-index:1000;align-items:center;justify-content:center;padding:20px;
@@ -164,7 +161,9 @@
     .modal-msg.ok{background:#E8F5E9;color:#1B5E20;border:1px solid #C8E6C9}
     .modal-msg.err{background:#FFEBEE;color:#C62828;border:1px solid #FFCDD2}
 
-    /* MAIN APP */
+    /* ══════════════════════════════════════
+       MAIN APP
+    ══════════════════════════════════════ */
     #appPage{display:none;justify-content:center;padding:30px 20px;min-height:100vh;background:#f0f2f5}
     body.dark #appPage{background:#1a1a2e}
     .home{background:white;border-radius:12px;padding:28px;width:100%;max-width:620px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
@@ -185,8 +184,7 @@
     .user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1565C0,#00BCD4);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
     .user-name{font-size:13px;color:#1565C0;font-weight:500}
     body.dark .user-name{color:#64B5F6}
-    .conn-status{font-size:12px;color:#27ae60;margin-bottom:16px;font-weight:500}
-    .conn-status.offline{color:#e74c3c}
+
     .section-label{font-size:11px;color:#666;font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px}
     body.dark .section-label{color:#777}
     .search-wrap{margin-bottom:16px}
@@ -232,10 +230,11 @@
     .del-btn-s{color:#e74c3c}.del-btn-s:hover{background:#fdecea}
     .no-notes{text-align:center;padding:30px;color:#bbb;font-size:14px}
     body.dark .no-notes{color:#555}
-    .footer{margin-top:20px;padding-top:14px;border-top:1px solid #eee;font-size:11px;color:#bbb;text-align:center}
-    body.dark .footer{border-color:#2a2a4a;color:#444}
 
-    /* NOTE VIEW/EDIT PAGE */
+
+    /* ══════════════════════════════════════
+       NOTE VIEW/EDIT PAGE
+    ══════════════════════════════════════ */
     #notePage{display:none;justify-content:center;padding:30px 20px;min-height:100vh;background:#f0f2f5}
     body.dark #notePage{background:#1a1a2e}
     .note-page{background:white;border-radius:12px;width:100%;max-width:700px;box-shadow:0 2px 16px rgba(0,0,0,0.12);overflow:hidden;display:flex;flex-direction:column}
@@ -286,7 +285,7 @@
 <!-- dark toggle always visible on login -->
 <button class="global-dark" id="globalDarkBtn" onclick="toggleDark()">Dark Mode</button>
 
-<!--  FORGOT PASSWORD MODAL  -->
+<!-- ══════════ FORGOT PASSWORD MODAL ══════════ -->
 <div class="modal-overlay" id="forgotModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('forgotModal')">&times;</button>
@@ -313,7 +312,7 @@
   </div>
 </div>
 
-<!-- LOGIN PAGE -->
+<!-- ══════════ LOGIN PAGE ══════════ -->
 <div id="loginPage">
   <div class="bg-circle bg-c1"></div>
   <div class="bg-circle bg-c2"></div>
@@ -323,8 +322,7 @@
 
   <div class="login-card">
     <div class="card-logo">N</div>
-    <div class="card-title">Notes Management App</div>
-    <div class="card-sub">INT332 - Lovely Professional University</div>
+    <div class="card-title">Notes Management Webapplication</div>
 
     <!-- TABS -->
     <div class="auth-tabs">
@@ -334,7 +332,7 @@
 
     <div class="auth-msg" id="authMsg"></div>
 
-    <!--  LOGIN FORM  -->
+    <!-- ── LOGIN FORM ── -->
     <div id="loginForm">
       <div class="form-group">
         <label class="form-label">Username</label>
@@ -360,7 +358,7 @@
       <button class="auth-submit" onclick="doLogin()">Login</button>
     </div>
 
-    <!--  SIGNUP FORM  -->
+    <!-- ── SIGNUP FORM ── -->
     <div id="signupForm" style="display:none">
       <div class="form-group">
         <label class="form-label">Full Name</label>
@@ -403,19 +401,11 @@
       <button class="auth-submit" onclick="doSignup()">Create Account</button>
     </div>
 
-    <!-- tech badges -->
-    <div class="card-badge">
-      <span class="cbadge">Docker</span>
-      <span class="cbadge">Docker Compose</span>
-      <span class="cbadge">Python Flask</span>
-      <span class="cbadge">MySQL</span>
-      <span class="cbadge">Nginx</span>
-      <span class="cbadge">GitHub Actions</span>
-    </div>
+
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- ══════════ MAIN APP ══════════ -->
 <div id="appPage">
 <div class="home">
   <div class="app-header">
@@ -429,7 +419,7 @@
     <div class="user-avatar" id="userAvatar"></div>
     <span class="user-name">Logged in as: <strong id="loggedUserName"></strong></span>
   </div>
-  <div class="conn-status" id="connStatus">Connecting...</div>
+
   <div class="search-wrap">
     <div class="section-label">Search Notes</div>
     <input type="text" id="searchInp" placeholder="Type to search your notes..." oninput="renderNotes()" />
@@ -443,11 +433,11 @@
   </div>
   <div class="notes-count" id="notesCount"></div>
   <div class="notes-scroll-box"><div id="notesList"></div></div>
-  <div class="footer">Tools Used: Docker | Docker Compose | Python Flask | MySQL | Nginx | GitHub Actions | Git</div>
+
 </div>
 </div>
 
-<!--  NOTE PAGE  -->
+<!-- ══════════ NOTE PAGE ══════════ -->
 <div id="notePage">
 <div class="note-page">
   <div class="np-header">
@@ -479,9 +469,9 @@
 </div>
 
 <script>
-  const API = "http://localhost:5000/notes";
+  const API = "http://54.242.165.249:5000/notes";
 
-  // USER STORE
+  // ── USER STORE ────────────────────────────
   // stored as lowercase keys for case-insensitive login
   // but displayName keeps original casing
   let USERS = JSON.parse(localStorage.getItem('nmwa_users2') || 'null') || {
@@ -495,7 +485,7 @@
   let allNotes = [], currentNote = null, isEditMode = false;
   let origTitle = '', origContent = '';
 
-  // DARK MODE
+  // ── DARK MODE ─────────────────────────────
   function toggleDark(){
     document.body.classList.toggle('dark');
     var on = document.body.classList.contains('dark');
@@ -505,7 +495,7 @@
     if(d2) d2.textContent = lbl;
   }
 
-  // TAB
+  // ── TAB ───────────────────────────────────
   function switchTab(t){
     document.getElementById('loginForm').style.display  = t==='login'  ? 'block' : 'none';
     document.getElementById('signupForm').style.display = t==='signup' ? 'block' : 'none';
@@ -514,14 +504,14 @@
     clearMsg();
   }
 
-  // SHOW/HIDE PWD 
+  // ── SHOW/HIDE PWD ─────────────────────────
   function togglePwd(id, btn){
     var inp = document.getElementById(id);
     if(inp.type==='password'){ inp.type='text'; btn.textContent='Hide'; }
     else{ inp.type='password'; btn.textContent='Show'; }
   }
 
-  // USERNAME VALIDATION 
+  // ── USERNAME VALIDATION ───────────────────
   function validateUsername(val){
     var hint = document.getElementById('userHint');
     if(!val){ hint.textContent='You can use uppercase and lowercase letters, numbers'; hint.className='field-hint hint-info'; return; }
@@ -532,7 +522,7 @@
     hint.textContent='Username is available'; hint.className='field-hint hint-ok';
   }
 
-  // CONFIRM PASSWORD CHECK
+  // ── CONFIRM PASSWORD CHECK ─────────────────
   function checkConfirm(){
     var p1 = document.getElementById('signupPass').value;
     var p2 = document.getElementById('signupConfirm').value;
@@ -542,7 +532,7 @@
     else{ hint.textContent='Passwords do not match'; hint.className='field-hint hint-err'; }
   }
 
-  //  PASSWORD STRENGTH
+  // ── PASSWORD STRENGTH ─────────────────────
   function checkStrength(val){
     var wrap = document.getElementById('strengthWrap');
     var fill = document.getElementById('strengthFill');
@@ -566,17 +556,17 @@
     text.textContent='Strength: '+lv.lbl; text.style.color=lv.bg;
   }
 
-  // MESSAGES 
+  // ── MESSAGES ──────────────────────────────
   function showMsg(m,t){ var e=document.getElementById('authMsg'); e.textContent=m; e.className='auth-msg show '+t; setTimeout(clearMsg,4000); }
   function clearMsg(){ document.getElementById('authMsg').className='auth-msg'; }
 
-  // MODAL
+  // ── MODAL ─────────────────────────────────
   function openModal(id){ document.getElementById(id).className='modal-overlay show'; }
   function closeModal(id){ document.getElementById(id).className='modal-overlay'; clearModalMsg(); }
   function clearModalMsg(){ var m=document.getElementById('fgMsg'); if(m) m.className='modal-msg'; }
   document.getElementById('forgotModal').addEventListener('click', function(e){ if(e.target===this) closeModal('forgotModal'); });
 
-  // RESET PASSWORD
+  // ── RESET PASSWORD ────────────────────────
   function doResetPassword(){
     var u   = document.getElementById('fgUser').value.trim().toLowerCase();
     var cur = document.getElementById('fgCurrentPass').value;
@@ -595,7 +585,7 @@
     setTimeout(function(){ closeModal('forgotModal'); }, 2000);
   }
 
-  // LOGIN
+  // ── LOGIN ─────────────────────────────────
   function doLogin(){
     var u = document.getElementById('loginUser').value.trim();
     var p = document.getElementById('loginPass').value;
@@ -611,7 +601,7 @@
     }
   }
 
-  // SIGNUP
+  // ── SIGNUP ────────────────────────────────
   function doSignup(){
     var name    = document.getElementById('signupName').value.trim();
     var rawUser = document.getElementById('signupUser').value.trim();
@@ -630,7 +620,7 @@
     setTimeout(function(){ loggedUser={key:key, displayName:rawUser}; enterApp(); }, 900);
   }
 
-  // ENTER APP
+  // ── ENTER APP ─────────────────────────────
   function enterApp(){
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('appPage').style.display   = 'flex';
@@ -640,7 +630,7 @@
     loadNotes();
   }
 
-  // LOGOUT
+  // ── LOGOUT ────────────────────────────────
   function doLogout(){
     loggedUser=null; allNotes=[]; currentNote=null;
     document.getElementById('appPage').style.display  = 'none';
@@ -655,16 +645,12 @@
   function showApp(){ document.getElementById('appPage').style.display='flex'; document.getElementById('notePage').style.display='none'; window.scrollTo(0,0); }
   function showNoteP(){ document.getElementById('appPage').style.display='none'; document.getElementById('notePage').style.display='flex'; window.scrollTo(0,0); }
 
-  // LOAD NOTES
+  // ── LOAD NOTES ────────────────────────────
   async function loadNotes(){
     try{
       var r=await fetch(API); allNotes=await r.json();
-      document.getElementById('connStatus').textContent='All 3 microservices connected and running';
-      document.getElementById('connStatus').className='conn-status';
       renderNotes();
     }catch(e){
-      document.getElementById('connStatus').textContent='Connecting to backend...';
-      document.getElementById('connStatus').className='conn-status offline';
       setTimeout(loadNotes,3000);
     }
   }
