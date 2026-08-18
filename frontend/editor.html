@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes Management - Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+
+<button class="global-dark" id="globalDarkBtn" onclick="toggleDark()">Dark Mode</button>
+
+<div id="notePage">
+  <div class="note-page">
+    <div class="np-header">
+      <button class="back-btn" onclick="goBack()">&#8592; Back</button>
+      <div class="np-header-mid">
+        <div class="np-breadcrumb">Notes Management &rsaquo; Notes</div>
+        <div class="np-timestamp" id="npTimestamp"></div>
+      </div>
+      <span class="saved-msg" id="savedMsg">Saved</span>
+      <span class="mode-badge mode-read" id="modeBadge">Read Mode</span>
+      <button class="etbtn btn-edit" id="editBtn" onclick="enterEditMode()">Edit</button>
+      <button class="etbtn btn-save" id="saveBtn" style="display:none" onclick="saveNote()">Save</button>
+      <button class="etbtn btn-cancel" id="cancelBtn" style="display:none" onclick="cancelEdit()">Cancel</button>
+    </div>
+    
+    <div class="np-title-wrap">
+      <div class="np-title-view" id="npTitleView"></div>
+      <input class="np-title-inp" type="text" id="npTitleInp" placeholder="Note title..." />
+    </div>
+    
+    <div class="np-divider"></div>
+    
+    <div class="np-content-wrap">
+      <div class="np-content-view" id="npContentView"></div>
+      <textarea class="np-content-inp" id="npContentInp" placeholder="Start writing your note here..."></textarea>
+    </div>
+    
+    <div class="np-footer">
+      <div class="np-footer-info" id="npWordCount"></div>
+      <button class="np-del-btn" onclick="deleteCurrentNote()">Delete Note</button>
+    </div>
+  </div>
+</div>
+
+<script src="global.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>

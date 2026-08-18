@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes Management - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<button class="global-dark" id="globalDarkBtn" onclick="toggleDark()">Dark Mode</button>
+
+<div id="appPage">
+  <div class="home">
+    <div class="app-header">
+      <h1>Notes Management</h1>
+      <div class="header-btns">
+        <button class="hbtn danger" onclick="doLogout()">Logout</button>
+      </div>
+    </div>
+    
+    <div class="user-bar">
+      <div class="user-avatar" id="userAvatar"></div>
+      <span class="user-name">Logged in as: <strong id="loggedUserName"></strong></span>
+    </div>
+
+    <div class="search-wrap">
+      <div class="section-label">Search Notes</div>
+      <input type="text" id="searchInp" placeholder="Type to search your notes..." oninput="renderNotes()" />
+    </div>
+    
+    <div class="add-wrap">
+      <div class="section-label">Add New Note</div>
+      <div class="add-row">
+        <input type="text" id="addInp" placeholder="Type a note title and press Add..." onkeypress="if(event.key==='Enter') addNote();" />
+        <button class="add-btn" onclick="addNote()">Add</button>
+      </div>
+    </div>
+    
+    <div class="notes-count" id="notesCount"></div>
+    <div class="notes-scroll-box"><div id="notesList"></div></div>
+  </div>
+</div>
+
+<script src="global.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

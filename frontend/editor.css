@@ -1,0 +1,44 @@
+#notePage { display: flex; justify-content: center; padding: 40px 20px; min-height: 100vh; }
+.note-page { width: 100%; max-width: 900px; display: flex; flex-direction: column; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.np-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.back-btn {
+  padding: 10px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  cursor: pointer; font-size: 14px; color: var(--text-main); font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 8px; backdrop-filter: var(--surface-blur);
+}
+.back-btn:hover { transform: translateX(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+.np-header-mid { flex: 1; min-width: 0; }
+.np-breadcrumb { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+.np-timestamp { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+
+.mode-badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.mode-read { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+.mode-edit { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+
+.etbtn { padding: 10px 24px; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 600; border: none; transition: all 0.2s; font-family: var(--font-body); }
+.btn-edit { background: var(--warning); color: white; box-shadow: 0 4px 12px rgba(245,158,11,0.3); } .btn-edit:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(245,158,11,0.4); }
+.btn-save { background: var(--success); color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.3); } .btn-save:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,0.4); }
+.btn-cancel { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); } .btn-cancel:hover { background: rgba(0,0,0,0.05); }
+body.dark .btn-cancel:hover { background: rgba(255,255,255,0.05); }
+
+.saved-msg { font-size: 13px; color: var(--success); font-weight: 600; opacity: 0; transition: opacity 0.3s; background: rgba(16,185,129,0.1); padding: 6px 12px; border-radius: 12px; }
+.saved-msg.show { opacity: 1; }
+
+.np-content-wrap { padding: 16px 40px 32px; flex: 1; display: flex; flex-direction: column; }
+.np-title-wrap { padding: 32px 40px 16px; }
+.np-title-view { font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--text-main); line-height: 1.2; word-break: break-word; }
+.np-title-inp { width: 100%; border: none; outline: none; font-size: 32px; font-weight: 800; color: var(--text-main); background: transparent; font-family: var(--font-heading); padding-bottom: 8px; display: none; border-bottom: 2px dashed var(--border); }
+.np-title-inp:focus { border-bottom-color: var(--primary); }
+
+.np-divider { height: 1px; background: var(--border); margin: 0 40px; }
+
+.np-content-view { flex: 1; font-size: 16px; line-height: 1.8; color: var(--text-main); white-space: pre-wrap; word-break: break-word; min-height: 400px; }
+.np-content-empty { color: var(--text-muted); font-style: italic; font-size: 16px; }
+.np-content-inp { flex: 1; width: 100%; border: 1px solid var(--input-border); border-radius: 16px; outline: none; resize: none; font-size: 16px; line-height: 1.8; color: var(--text-main); background: var(--input-bg); font-family: var(--font-body); padding: 24px; min-height: 400px; display: none; transition: border-color 0.3s; }
+.np-content-inp:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+
+.np-footer { padding: 16px 40px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; border-radius: 0 0 24px 24px;}
+body.dark .np-footer { background: rgba(255,255,255,0.02); }
+.np-footer-info { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+.np-del-btn { padding: 8px 16px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 10px; color: var(--danger); cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+.np-del-btn:hover { background: var(--danger); color: white; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(239,68,68,0.3); }
